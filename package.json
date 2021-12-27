@@ -1,6 +1,7 @@
 {
   "name": "shop",
   "version": "0.0.0",
+  "homepage": "https://https://yul4.github.io/Ruth-Hajaj-27-12-2021/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
