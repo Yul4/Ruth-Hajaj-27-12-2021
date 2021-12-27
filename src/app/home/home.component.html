@@ -1,0 +1,47 @@
+<div class="d-flex justify-content-center mt-3">
+  <mat-form-field appearance="fill" class="w-75">
+    <input matInput (keyup)="search(keyword.value)" #keyword placeholder="Search for city...">
+  </mat-form-field>
+</div>
+<div class="d-flex flex-wrap">
+  <div (click)="getCityWeather(city)" *ngFor="let city of cities" class="p-3 m-2 bg-dark text-white text-center pointer">
+    <div>{{ city.LocalizedName }}</div>
+    <div class="f-12">{{ city.Country.LocalizedName }}</div>
+  </div>
+</div>
+<div *ngIf="selectedCityWeather" class="bg-dark text-white text-center p-3">
+  <div class="d-flex justify-content-end">
+    <mat-icon class="pointer" *ngIf="!selectedCity?.isFavorite" (click)="addFavorite(selectedCity)">favorite</mat-icon>
+      <mat-icon *ngIf="selectedCity?.isFavorite">favorite_border</mat-icon>
+  </div>
+  <p class="h3">{{ selectedCity.LocalizedName }}</p>
+  <p class="h4">Now</p>
+  <div class="day-icon" *ngIf="selectedCityWeather.IsDayTime"></div>
+  <div class="night-icon" *ngIf="!selectedCityWeather.IsDayTime"></div>
+  <p>{{ selectedCityWeather.WeatherText }}</p>
+  <p *ngIf="selectedCityWeather.HasPrecipitation">{{ selectedCityWeather.PrecipitationType }}</p>
+  <span class="h2">{{ selectedCityWeather.Temperature?.Metric?.Value}}°</span>
+  <p>{{ selectedCityWeather.Temperature?.Metric?.Imperial }}</p>
+</div>
+<p class="h3 text-center my-3" *ngIf="dailyForecasts?.Headline">{{ dailyForecasts.Headline.Text }}</p>
+<div class="d-flex justify-content-between" *ngIf="dailyForecasts">
+  <div *ngFor="let forcats of dailyForecasts.DailyForecasts" class="bg-dark text-white text-center p-3 w-18">
+    <p class="h4">{{ forcats.Date | date: 'dd/MM' }}</p>
+    <p class="h5 mt-4">{{ forcats.Temperature?.Maximum?.Value }}°</p>
+    <div class="horizontal-white-border"></div>
+    <p class="h5">{{ forcats.Temperature?.Minimum?.Value }}°</p>
+    <div class="d-flex justify-content-between mt-4 f-12">
+      <div class="flex-column w-30">
+        <div class="day-icon"></div>
+        <p>{{ forcats.Day.IconPhrase }}</p>
+      </div>
+      <div class="vertical-white-border"></div>
+      <div class="flex-column w-30">
+        <div class="night-icon"></div>
+        <p>{{ forcats.Night.IconPhrase }}</p>
+      </div>
+    </div>
+    <p *ngIf="forcats.Day?.HasPrecipitation">{{ forcats.Day.PrecipitationType }}</p>
+  </div>
+</div>
+

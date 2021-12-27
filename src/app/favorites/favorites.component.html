@@ -1,0 +1,12 @@
+<div *ngFor="let favorite of favorites; let index = index" class="bg-dark text-white text-center p-3 my-3">
+  <p class="h3">{{ favorite.LocalizedName }}</p>
+  <mat-icon class="pointer" (click)="removeFromFavorites(index)">favorite</mat-icon>
+  <p class="h4">Now</p>
+  <div class="day-icon" *ngIf="favorite.IsDayTime"></div>
+  <div class="night-icon" *ngIf="!favorite.IsDayTime"></div>
+  <p>{{ favorite.WeatherText }}</p>
+  <p *ngIf="favorite.HasPrecipitation">{{ favorite.PrecipitationType }}</p>
+  <span class="h2">{{ favorite.Temperature?.Metric?.Value}}°</span>
+  <p>{{ favorite.Temperature?.Metric?.Imperial }}</p>
+</div>
+
