@@ -11,8 +11,8 @@
 </div>
 <div *ngIf="selectedCityWeather" class="bg-dark text-white text-center p-3">
   <div class="d-flex justify-content-end">
-    <mat-icon class="pointer" *ngIf="!selectedCity?.isFavorite" (click)="addFavorite(selectedCity)">favorite</mat-icon>
-      <mat-icon *ngIf="selectedCity?.isFavorite">favorite_border</mat-icon>
+    <mat-icon class="pointer" *ngIf="!selectedCity?.isFavorite" (click)="addFavorite()">favorite_border</mat-icon>
+    <mat-icon *ngIf="selectedCity?.isFavorite">favorite</mat-icon>
   </div>
   <p class="h3">{{ selectedCity.LocalizedName }}</p>
   <p class="h4">Now</p>

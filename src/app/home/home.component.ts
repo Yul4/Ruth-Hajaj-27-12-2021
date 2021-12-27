@@ -48,10 +48,10 @@ export class HomeComponent {
     });
   }
 
-  addFavorite(city: CityModel): void {
+  addFavorite(): void {
     let favorites = JSON.parse(localStorage.getItem('favorites') as string);
     if (favorites) {
-      const index = favorites.indexOf((fav: { Key: string | undefined; }) => fav.Key === city.Key);
+      const index = favorites.indexOf((fav: { Key: string | undefined; }) => fav.Key === this.selectedCityWeather.Key);
       if (index !== -1) {
         return;
       }
@@ -60,7 +60,10 @@ export class HomeComponent {
     }
 
     this.selectedCity.isFavorite = true;
-    favorites.push(city);
+
+    Object.assign(this.selectedCityWeather, { name: this.selectedCity.LocalizedName });
+    favorites.push(this.selectedCityWeather);
+
     localStorage.setItem('favorites', JSON.stringify(favorites));
   }
 }
