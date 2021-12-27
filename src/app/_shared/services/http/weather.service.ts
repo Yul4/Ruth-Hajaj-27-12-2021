@@ -10,7 +10,7 @@ export class WeatherService {
 
    readonly apiUrl = 'https://dataservice.accuweather.com/';
 
-  readonly apiKey = 'AeKm4zF6812QJElkpsRvhvqtnDrLM601';
+  readonly apiKey = '7weH8BqSuNb12BYCVyFf0j3SBk1Q5kn7';
 
   constructor(private http: HttpClient) {}
 
