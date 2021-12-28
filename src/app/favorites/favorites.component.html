@@ -8,8 +8,8 @@
     <div class="night-icon" *ngIf="!favorite.IsDayTime"></div>
     <p>{{ favorite.WeatherText }}</p>
     <p *ngIf="favorite.HasPrecipitation">{{ favorite.PrecipitationType }}</p>
-    <span class="h2">{{ favorite.Temperature?.Metric.Value}}°</span>
-    <p>{{ favorite.Temperature?.Metric.Imperial }}</p>
+    <span class="h2">{{ favorite.Temperature?.Metric?.Value}}°</span>
+    <p>{{ favorite.Temperature?.Metric?.Imperial }}</p>
   </div>
 </div>
 
