@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { catchError, map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
 
 import { CityModel } from 'src/app/_shared/models/city.model';
 
@@ -8,22 +10,23 @@ import { CityModel } from 'src/app/_shared/models/city.model';
 })
 export class WeatherService {
 
-   readonly apiUrl = 'https://dataservice.accuweather.com/';
+   readonly baseUrl = 'https://dataservice.accuweather.com/';
 
-  readonly apiKey = '7weH8BqSuNb12BYCVyFf0j3SBk1Q5kn7';
+  readonly apiKey = 'AeKm4zF6812QJElkpsRvhvqtnDrLM601';
 
   constructor(private http: HttpClient) {}
 
-  getCities(keyword: string): Promise<CityModel[] | null> {
-    const url = `${this.apiUrl}locations/v1/cities/autocomplete?apikey=${this.apiKey}&q=${keyword}&language=en`;
+  getCities(keyword: string): Observable<CityModel[]> {
+    const url = `${this.baseUrl}locations/v1/cities/autocomplete?apikey=${this.apiKey}&q=${keyword}&language=en`;
     return this.http.get(url)
-      .toPromise()
-      .then(response => response as CityModel[])
-      .catch(() => null);
+      .pipe(map((response: any) => response as CityModel[]),
+        catchError((e: any) => {
+          return throwError(e);
+        }));
   }
 
   getCityWeather(cityKey: string): Promise<any> {
-    const url = `${this.apiUrl}currentconditions/v1/${cityKey}?apikey=${this.apiKey}&language=en&details=false`;
+    const url = `${this.baseUrl}currentconditions/v1/${cityKey}?apikey=${this.apiKey}&language=en&details=false`;
     return this.http.get(url)
       .toPromise()
       .then(response => response)
@@ -31,7 +34,7 @@ export class WeatherService {
   }
 
   dailyForecasts(cityKey: string): Promise<any> {
-    const url = `${this.apiUrl}forecasts/v1/daily/5day/${cityKey}?apikey=${this.apiKey}&language=en&details=false&metric=true`;
+    const url = `${this.baseUrl}forecasts/v1/daily/5day/${cityKey}?apikey=${this.apiKey}&language=en&details=false&metric=true`;
     return this.http.get(url)
       .toPromise()
       .then(response => response)

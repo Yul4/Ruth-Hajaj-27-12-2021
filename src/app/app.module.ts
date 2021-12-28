@@ -11,8 +11,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from 'src/app/header/header.component';
 
-import { NotificationService } from 'src/app/_shared/services/generic/notification.service';
-
 const routes: Routes = [
   { path: 'home', loadChildren: () => import('./home/home.module').then(m => m.HomeModule) },
   { path: 'favorites', loadChildren: () => import('./favorites/favorites.module').then(m => m.FavoritesModule) },
@@ -33,7 +31,6 @@ const routes: Routes = [
     MatToolbarModule,
     MatIconModule
   ],
-  providers: [NotificationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

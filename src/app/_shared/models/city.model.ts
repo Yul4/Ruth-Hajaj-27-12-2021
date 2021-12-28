@@ -1,5 +1,6 @@
 export class CityModel {
   Key: string;
-  LocalizedName: string | undefined;
-  Country: { ID: string, LocalizedName: string } | undefined;
+  LocalizedName: string;
+  Country: { ID: string, LocalizedName: string };
+  isFavorite: boolean;
 }
