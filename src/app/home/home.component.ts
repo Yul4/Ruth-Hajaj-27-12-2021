@@ -1,7 +1,6 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
-import { fromEvent } from 'rxjs';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { debounceTime, distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
+import { fromEvent, Subject } from 'rxjs';
 
 import { WeatherService } from 'src/app/_shared/services/http/weather.service';
 
@@ -14,9 +13,11 @@ import { DailyForecastsModel } from 'src/app/_shared/models/daily-forecasts.mode
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.styl']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
   @ViewChild('citySearchInput', { static: true }) citySearchInput: ElementRef;
+
+  readonly ngDestroy = new Subject();
 
   isSearching: boolean;
 
@@ -28,14 +29,14 @@ export class HomeComponent implements OnInit {
 
   dailyForecasts: DailyForecastsModel;
 
-  constructor(private route: ActivatedRoute,
-              private weatherService: WeatherService) {
-
+  constructor(private weatherService: WeatherService) {
     this.isSearching = false;
   }
 
   ngOnInit(): void {
-    fromEvent(this.citySearchInput.nativeElement, 'keyup').pipe(map((event: any) => {
+
+    fromEvent(this.citySearchInput.nativeElement, 'keyup')
+      .pipe(takeUntil(this.ngDestroy), map((event: any) => {
         return event.target.value;
       }),
       filter(res => res.length >= 2),
@@ -91,5 +92,10 @@ export class HomeComponent implements OnInit {
     favorites.push(this.selectedCityWeather);
 
     localStorage.setItem('favorites', JSON.stringify(favorites));
+  }
+
+  ngOnDestroy(): void {
+    this.ngDestroy.next();
+    this.ngDestroy.complete();
   }
 }
